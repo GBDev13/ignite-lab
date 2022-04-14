@@ -33,7 +33,11 @@ export class CoursesService {
 
   async createCourse({
     title,
-    slug = slugify(title, { lower: true }),
+    slug = slugify(title, {
+      lower: true,
+      remove: /[*+~.()'"!:@]/g,
+      trim: true,
+    }),
   }: CreateCourseParams) {
     const courseAlreadyExists = await this.prisma.course.findUnique({
       where: {
